@@ -211,6 +211,11 @@ cleanup:
   }
 
   XFREE_CLEAR(fetch_data->data);
+
+  if (fetch_data->upload_file != NULL) {
+    fclose(fetch_data->upload_file);
+  }
+
   curl_mime_free(fetch_data->multipart_form);
   curl_slist_free_all(fetch_data->headers);
   curl_easy_cleanup(easy_handle);
