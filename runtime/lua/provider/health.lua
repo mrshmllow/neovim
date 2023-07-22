@@ -174,6 +174,33 @@ local function clipboard()
   end
 end
 
+local function open()
+  start('System open provider (gx, vim.ui.open) (optional)')
+
+  if vim.fn.has('mac') == 1 then
+    if vim.fn.executable('open') == 1 then
+      ok('System open provider found: OSX `open`')
+    else
+      error('`open` was not found')
+    end
+  elseif vim.fn.has('win32') == 1 then
+    if vim.fn.executable('rundll32') == 1 then
+      ok('System open provider found: rundll32 url.dll')
+    else
+      error('`rundll32` was not found')
+    end
+  elseif vim.fn.executable('wslview') == 1 then
+    ok('System open provider found: wslview')
+  elseif vim.fn.executable('xdg-open') == 1 then
+    ok('System open provider found: xdg-open')
+  else
+    warn(
+      'No system open provider found. `gx` and `vim.ui.open()` will not work',
+      'Try installing xdg-open or wslview.'
+    )
+  end
+end
+
 local function disabled_via_loaded_var(provider)
   local loaded_var = 'loaded_' .. provider .. '_provider'
   local v = vim.g[loaded_var]
@@ -907,6 +934,7 @@ end
 
 function M.check()
   clipboard()
+  open()
   python()
   ruby()
   node()

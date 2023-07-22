@@ -2438,10 +2438,12 @@ vim.ui.input({opts}, {on_confirm})                            *vim.ui.input()*
 
 vim.ui.open({path})                                            *vim.ui.open()*
     Opens `path` with the system default handler (macOS `open`, Windows
-    `explorer.exe`, Linux `xdg-open`, …), or returns (but does not show) an
-    error message on failure.
+    `url.dll`, Linux `xdg-open`, …), or returns (but does not show) an error
+    message on failure.
 
     Expands "~/" and environment variables in filesystem paths.
+
+    See `:checkhealth provider` to check which provider will be used.
 
     Examples: >lua
 

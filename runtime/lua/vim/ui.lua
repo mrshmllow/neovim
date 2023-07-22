@@ -104,10 +104,12 @@ function M.input(opts, on_confirm)
   end
 end
 
---- Opens `path` with the system default handler (macOS `open`, Windows `explorer.exe`, Linux
+--- Opens `path` with the system default handler (macOS `open`, Windows `url.dll`, Linux
 --- `xdg-open`, …), or returns (but does not show) an error message on failure.
 ---
 --- Expands "~/" and environment variables in filesystem paths.
+---
+--- See `:checkhealth provider` to check which provider will be used.
 ---
 --- Examples:
 --- <pre>lua
@@ -146,7 +148,8 @@ function M.open(path)
   elseif vim.fn.executable('xdg-open') == 1 then
     cmd = { 'xdg-open', path }
   else
-    return nil, 'vim.ui.open: no handler found (tried: wslview, xdg-open)'
+    return nil,
+      'vim.ui.open: no handler found, try :checkhealth provider (tried: wslview, xdg-open)'
   end
 
   local rv = vim.system(cmd, { text = true, detach = true }):wait()
